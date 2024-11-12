@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/style.css" />
+        <title>Perfil del Paciente</title>
+    </head>
+    <body>
+        <h1>Perfil del Paciente</h1>
+        <div id="perfil"></div>
+        <section>
+            <h2>Solicitar Cita</h2>
+            <label for="fechaCita">Fecha y Hora:</label>
+            <input type="datetime-local" id="fechaCita">
+            <button onclick="solicitarCita()">Solicitar Cita</button>
+        </section>
+
+        <script>
+            async function solicitarCita() {
+                const fechaCita = document.getElementById('fechaCita').value;
+
+                if (!fechaCita) {
+                    alert('La fecha de la cita es obligatoria.');
+                    return;
+                }
+
+                const response = await fetch('/api/citas/solicitar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        fechaCita: fechaCita,
+                        idPaciente: 1, // Ajusta este valor según corresponda
+                        estado: 'Pendiente'
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Cita solicitada con éxito');
+                } else {
+                    alert('Error al solicitar cita');
+                }
+            }
+
+        </script>
+
+        <script src="/css/paciente.js"></script>
+    </body>
+</html>
